@@ -4,15 +4,65 @@ import {createStore} from 'redux'
 import {Provider, connect} from 'react-redux'
 import * as Actions from '../04_action/actions'
 
-let wk :string = "ABC!"
+
+interface PropsHabit {
+	habitName : string,
+	// key: number,  //keyはReactの特別プロパティ  差分レンダリングの為にある。
+	habitKey: number,
+	modHabit: Function
+}
+interface StateHabit {
+}
+/**
+ * 子コンポーネントクラス（習慣）
+ */
+class HabitLane extends React.Component<PropsHabit, StateHabit> {
+	constructor(props){
+		super(props)
+		this.state = {
+			//コンポーネント内の値管理
+		}
+	}
+
+	changeText(e){
+		this.props.modHabit(this.props.habitKey, e.target.value)
+	}
+
+	render() {
+		// console.count("HabitLane render ")
+		// どれか1行変えたら全行が再レンダリングされる。これが嫌なら[更新]ボタンとかのタイミングでstateを変える。
+		// だから更新する時は別にフォームエリアを出すアプリが多いのかな。
+		return (
+			<tr className="habitLane">
+				<td><input type="text" value={this.props.habitName} onChange={this.changeText.bind(this)} id="habitName"/></td>
+				<td>　　</td>
+				<td>
+					<div className="days">
+						<div className="dayItem monday"><input type="checkbox"/></div>
+						<div className="dayItem tuesday"><input type="checkbox"/></div>
+						<div className="dayItem wednesday"><input type="checkbox"/></div>
+						<div className="dayItem thirsday"><input type="checkbox"/></div>
+						<div className="dayItem friday"><input type="checkbox"/></div>
+						<div className="dayItem sataday"><input type="checkbox"/></div>
+						<div className="dayItem sunday"><input type="checkbox"/></div>
+					</div>
+				</td>
+			</tr>
+		)
+	}
+}
 
 /**
  * 親コンポーネントクラス用 Props
  */
 interface Props0 {
 	initialState?: initialStateType,
-	habitName : number,
-	countUp1: Function
+	habits: [{
+		habitKey:number,
+		habitName:string
+	}],
+	addHabit: Function,
+	modHabit: Function
 }
 /**
  * 親コンポーネントクラス用 State
@@ -31,9 +81,15 @@ class App extends React.Component<Props0, State0> {
 	render() {
 		return (
 			<div>
-				<h1>Hello React!!</h1>
-				<div>this.props.value1(コンポーネント自体のprops from Store)  -> {this.props.habitName}</div>
-				<button onClick={() => this.props.countUp1()}>CountUP first(固定値1UP)</button>
+				<h1>Habit Tracker!!</h1>
+				<button onClick={() => this.props.addHabit()}>習慣追加</button>
+				<div className="OutBorder">
+					<table id="habits">
+						<tbody>
+							{this.props.habits.map( (habit)=>{return <HabitLane habitName={habit.habitName} key={habit.habitKey} habitKey={habit.habitKey} modHabit={this.props.modHabit.bind(this)} />})}
+						</tbody>
+					</table>
+				</div>
 			</div>
 		)
 	}
@@ -41,14 +97,22 @@ class App extends React.Component<Props0, State0> {
 
 // Storeに入れるstate用タイプ
 interface initialStateType {
-	habitName: string,
+	keyIndex:number,
+	habits: [{
+		habitKey:number,
+		habitName:string
+	}],
 }
 
 /**
  * Storeに入れるstate
  */
 const initialState:initialStateType = {
-	habitName: "Name",
+	keyIndex:1,
+	habits: [{
+		habitKey:1,
+		habitName:"Name"
+	}],
 }
 
 /**
@@ -58,10 +122,26 @@ const initialState:initialStateType = {
  */
 const reducer = (state = initialState , action) => {
 		switch(action.type){
-		case 'ADD1':
-			return Object.assign({}, state, { habitName: "Named" })
-		default:
-			return state
+			case 'ADD_Habit':
+				return Object.assign({}, state, { 
+					keyIndex: state.keyIndex + 1,
+					habits: state.habits.concat({habitKey:state.keyIndex + 1, habitName:""})  // pushだとstate変更になるので、Reactが変更感知しないっぽい.
+				})
+			case 'UPDATE_Habit':
+				let newMap = state.habits.map((habit)=>{
+					// return {
+					// 	habitKey: habit.habitKey,
+					// 	habitName: habit.habitKey === action.habitKey ? action.habitName : habit.habitName
+					// }
+					if(habit.habitKey === action.habitKey){
+						return {habitKey: habit.habitKey, habitName: action.habitName}
+					}else {
+						return {...habit}
+					}
+				})
+				return Object.assign({}, state, { habits: newMap })
+			default:
+				return state
 	}
 }
 
@@ -76,7 +156,8 @@ const store = createStore(reducer, initialState)
  */
 const mapStateToProps = (state /*, ownProps*/) => {
 	return {
-		habitName : state.habitName,
+		keyIndex: state.keyIndex,
+		habits : state.habits,
 	}
  }
 /**
@@ -84,7 +165,8 @@ const mapStateToProps = (state /*, ownProps*/) => {
  */
 const mapDispatchToProps = (dispatch) => {
 	return {
-		countUp1 : () => dispatch(Actions.actionAdd1()),
+		addHabit : () => dispatch(Actions.addHabit()),
+		modHabit : (key:number, name:string) => dispatch(Actions.modHabit(key, name))
 	}
 }
 

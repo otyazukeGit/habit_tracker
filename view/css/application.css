@@ -1,22 +1,11 @@
-.tip {
-	display: block;
-	height: 50px;
-	width: 50%;
-	border: 5px double green;
-	padding-left: 5px;  /* 内側 */
-	margin-bottom: 2px; /* 外側 */
-	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.32);/*影*/
-	color: green;
-	align-self: flex-start;
+#habits {
+	border: 2px;
+}
+.days {
+	display: flex;
+	width: 500px;
 }
 
-svg {
-	height: 300px;
-}
-
-.link {
-	fill: none;
-	stroke: black;
-	/*stroke-opacity: 0.4;*/
-	stroke-width: 1.5px;
+.dayItem {
+	flex-basis:50px;
 }
