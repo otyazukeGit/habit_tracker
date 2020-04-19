@@ -8,3 +8,14 @@ export interface habitDaysType {
 	sunday:boolean
 }
 
+// Storeに入れるstate用タイプ
+export interface initialStateType {
+	keyIndex:number,
+	habits: [{
+		habitKey:number,
+		habitName:string
+		// habitDays:boolean[]
+		habitDays:habitDaysType,
+	}],
+	footerDays:habitDaysType
+}

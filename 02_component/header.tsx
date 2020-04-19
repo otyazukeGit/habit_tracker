@@ -7,17 +7,17 @@ export class HabitHeader extends React.Component<{}> {
 
 	render(){
 		return (
-			<tr className="habitLane">
+			<tr>
 				<th></th>
 				<th>
-					<div className="days">
-						<div className="dayItem">Mon</div>
-						<div className="dayItem">Tue</div>
-						<div className="dayItem">Wed</div>
-						<div className="dayItem">Thr</div>
-						<div className="dayItem">Fri</div>
-						<div className="dayItem">Sat</div>
-						<div className="dayItem">Sun</div>
+					<div className="days habitLaneHeader">
+						<div className="dayItemHeader">Mon</div>
+						<div className="dayItemHeader">Tue</div>
+						<div className="dayItemHeader">Wed</div>
+						<div className="dayItemHeader">Thr</div>
+						<div className="dayItemHeader">Fri</div>
+						<div className="dayItemHeader">Sat</div>
+						<div className="dayItemHeader">Sun</div>
 					</div>
 				</th>
 			</tr>

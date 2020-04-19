@@ -2,17 +2,32 @@
 	border-collapse:collapse;  これをすると<tr>にborderが指定できる
 } */
 table {
+	width: 500px;
+}
+.habitLaneHeader {
+	background-color: moccasin;
+}
+.habitLane {
 	background-color: aliceblue;
 }
-th.div.days {
-	background-color: moccasin;
+.habitName {
+	width: 200px;
+	font-size: large;
 }
 .days {
 	display: flex;
-	width: 500px;
+	/* width: 500px; */
 }
 .dayItem {
-	flex-basis:50px;
+	flex-basis:80px;
 	border:1px solid mediumblue; 
+	text-align: center;	
+}
+.dayItemFooter {
+	flex-basis:80px;
+	text-align: center;	
+}
+.dayItemHeader {
+	flex-basis:80px;
 	text-align: center;	
 }

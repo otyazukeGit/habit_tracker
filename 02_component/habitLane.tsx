@@ -36,7 +36,7 @@ export class HabitLane extends React.Component<PropsHabit, StateHabit> {
 		// だから更新する時は別にフォームエリアを出すアプリが多いのかな。
 		return (
 			<tr className="habitLane">
-				<td><input type="text" value={this.props.habitName} onChange={this.changeText.bind(this)} id="habitName"/></td>
+				<td><input type="text" className="habitName" value={this.props.habitName} onChange={this.changeText.bind(this)} id="habitName"/></td>
 				<td>
 					<div className="days">
 						<div className="dayItem"><input type="checkbox" className="monday" checked={this.props.habitDays.monday} onChange={this.chandeDay.bind(this)}/></div>
