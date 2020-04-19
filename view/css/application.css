@@ -1,11 +1,18 @@
-#habits {
-	border: 2px;
+/* table#habits {
+	border-collapse:collapse;  これをすると<tr>にborderが指定できる
+} */
+table {
+	background-color: aliceblue;
+}
+th.div.days {
+	background-color: moccasin;
 }
 .days {
 	display: flex;
 	width: 500px;
 }
-
 .dayItem {
 	flex-basis:50px;
+	border:1px solid mediumblue; 
+	text-align: center;	
 }

@@ -3,13 +3,16 @@ import * as ReactDOM from 'react-dom'
 import {createStore} from 'redux'
 import {Provider, connect} from 'react-redux'
 import * as Actions from '../04_action/actions'
-
+import {HabitFooter} from '../02_component/footer'
+import {HabitHeader} from '../02_component/header'
 
 interface PropsHabit {
 	habitName : string,
 	// key: number,  //keyはReactの特別プロパティ  差分レンダリングの為にある。
 	habitKey: number,
-	modHabit: Function
+	habitDays: habitDaysType,
+	modHabit: Function,
+	switchHabitDay: Function,
 }
 interface StateHabit {
 }
@@ -24,8 +27,12 @@ class HabitLane extends React.Component<PropsHabit, StateHabit> {
 		}
 	}
 
-	changeText(e){
+	changeText(e){ //React input.valueの変更はonChangeで制御
 		this.props.modHabit(this.props.habitKey, e.target.value)
+	}
+
+	chandeDay(e){
+		this.props.switchHabitDay(this.props.habitKey, e.target.checked, e.target.className)
 	}
 
 	render() {
@@ -35,22 +42,22 @@ class HabitLane extends React.Component<PropsHabit, StateHabit> {
 		return (
 			<tr className="habitLane">
 				<td><input type="text" value={this.props.habitName} onChange={this.changeText.bind(this)} id="habitName"/></td>
-				<td>　　</td>
 				<td>
 					<div className="days">
-						<div className="dayItem monday"><input type="checkbox"/></div>
-						<div className="dayItem tuesday"><input type="checkbox"/></div>
-						<div className="dayItem wednesday"><input type="checkbox"/></div>
-						<div className="dayItem thirsday"><input type="checkbox"/></div>
-						<div className="dayItem friday"><input type="checkbox"/></div>
-						<div className="dayItem sataday"><input type="checkbox"/></div>
-						<div className="dayItem sunday"><input type="checkbox"/></div>
+						<div className="dayItem"><input type="checkbox" className="monday" checked={this.props.habitDays.monday} onChange={this.chandeDay.bind(this)}/></div>
+						<div className="dayItem"><input type="checkbox" className="tuesday" checked={this.props.habitDays.tuesday} onChange={this.chandeDay.bind(this)}/></div>
+						<div className="dayItem"><input type="checkbox" className="wednesday" checked={this.props.habitDays.wednesday} onChange={this.chandeDay.bind(this)}/></div>
+						<div className="dayItem"><input type="checkbox" className="thirsday" checked={this.props.habitDays.thirsday} onChange={this.chandeDay.bind(this)}/></div>
+						<div className="dayItem"><input type="checkbox" className="friday" checked={this.props.habitDays.friday} onChange={this.chandeDay.bind(this)}/></div>
+						<div className="dayItem"><input type="checkbox" className="sataday" checked={this.props.habitDays.sataday} onChange={this.chandeDay.bind(this)}/></div>
+						<div className="dayItem"><input type="checkbox" className="sunday" checked={this.props.habitDays.sunday} onChange={this.chandeDay.bind(this)}/></div>
 					</div>
 				</td>
 			</tr>
 		)
 	}
 }
+
 
 /**
  * 親コンポーネントクラス用 Props
@@ -59,10 +66,15 @@ interface Props0 {
 	initialState?: initialStateType,
 	habits: [{
 		habitKey:number,
-		habitName:string
+		habitName:string,
+		habitDays:habitDaysType,
+		footerDays:habitDaysType
 	}],
+	footerDays: habitDaysType,
 	addHabit: Function,
-	modHabit: Function
+	modHabit: Function,
+	switchHabitAllDays: Function,
+	switchHabitDay: Function
 }
 /**
  * 親コンポーネントクラス用 State
@@ -86,7 +98,17 @@ class App extends React.Component<Props0, State0> {
 				<div className="OutBorder">
 					<table id="habits">
 						<tbody>
-							{this.props.habits.map( (habit)=>{return <HabitLane habitName={habit.habitName} key={habit.habitKey} habitKey={habit.habitKey} modHabit={this.props.modHabit.bind(this)} />})}
+							<HabitHeader />
+							{this.props.habits.map( (habit)=>{
+								return <HabitLane 
+									habitName={habit.habitName} 
+									key={habit.habitKey} 
+									habitKey={habit.habitKey} 
+									habitDays={habit.habitDays} 
+									modHabit={this.props.modHabit.bind(this)}
+									switchHabitDay={this.props.switchHabitDay.bind(this)} />}
+							)}
+							<HabitFooter footerDays={this.props.footerDays} switchHabitAllDays={this.props.switchHabitAllDays}/>
 						</tbody>
 					</table>
 				</div>
@@ -95,13 +117,26 @@ class App extends React.Component<Props0, State0> {
 	}
 }
 
+interface habitDaysType {
+		monday:boolean,
+		tuesday:boolean,
+		wednesday:boolean,
+		thirsday:boolean,
+		friday:boolean,
+		sataday:boolean,
+		sunday:boolean
+}
+
 // Storeに入れるstate用タイプ
 interface initialStateType {
 	keyIndex:number,
 	habits: [{
 		habitKey:number,
 		habitName:string
+		// habitDays:boolean[]
+		habitDays:habitDaysType,
 	}],
+	footerDays:habitDaysType
 }
 
 /**
@@ -111,8 +146,28 @@ const initialState:initialStateType = {
 	keyIndex:1,
 	habits: [{
 		habitKey:1,
-		habitName:"Name"
+		habitName:"Name",
+		// habitDays:[false,false,false,false,false,false,false]
+		habitDays:{
+			monday:false,
+			tuesday:false,
+			wednesday:false,
+			thirsday:false,
+			friday:false,
+			sataday:false,
+			sunday:false
+		},
 	}],
+	footerDays:{
+		monday:false,
+		tuesday:false,
+		wednesday:false,
+		thirsday:false,
+		friday:false,
+		sataday:false,
+		sunday:false
+	}
+
 }
 
 /**
@@ -121,20 +176,56 @@ const initialState:initialStateType = {
  * @param action 更新メソッド分岐名称、第２引数以降はセット用値
  */
 const reducer = (state = initialState , action) => {
+		let newMap
 		switch(action.type){
 			case 'ADD_Habit':
+				console.log("ADD_Habit()")
 				return Object.assign({}, state, { 
 					keyIndex: state.keyIndex + 1,
-					habits: state.habits.concat({habitKey:state.keyIndex + 1, habitName:""})  // pushだとstate変更になるので、Reactが変更感知しないっぽい.
+					habits: state.habits.concat({
+						habitKey:state.keyIndex + 1, 
+						habitName:"", 
+						// habitDays:[false,false,false,false,false,false,false]
+						habitDays:{
+							monday:false,
+							tuesday:false,
+							wednesday:false,
+							thirsday:false,
+							friday:false,
+							sataday:false,
+							sunday:false
+						}
+					})  // pushだとstate変更になるので、Reactが変更感知しないっぽい.
 				})
 			case 'UPDATE_Habit':
-				let newMap = state.habits.map((habit)=>{
+				console.log("UPDATE_Habit()")
+				newMap = state.habits.map((habit)=>{
 					// return {
 					// 	habitKey: habit.habitKey,
 					// 	habitName: habit.habitKey === action.habitKey ? action.habitName : habit.habitName
 					// }
 					if(habit.habitKey === action.habitKey){
-						return {habitKey: habit.habitKey, habitName: action.habitName}
+						// return {habitKey: habit.habitKey, habitName: action.habitName, habitDays:habit.habitDays}
+						return {...habit, habitName: action.habitName}
+					}else {
+						return {...habit}
+					}
+				})
+				return Object.assign({}, state, { habits: newMap })
+			case 'Switch_Habit_AllDays':
+				console.log("Switch_Habit_AllDays()")
+				let new_habits = state.habits.map(habit => {
+					return {...habit, habitDays:Object.assign(habit.habitDays, {[action.className]:action.onOff})}
+				})
+				let new_footerDays = Object.assign({}, state.footerDays, {[action.className]:action.onOff})
+				return Object.assign({}, state, { 
+					habits: new_habits,
+					footerDays: new_footerDays})
+			case 'Switch_Habit_Day':
+				console.log("Switch_Habit_Day()")
+				newMap = state.habits.map((habit)=>{
+					if(habit.habitKey === action.habitKey){
+						return {...habit, habitDays:Object.assign(habit.habitDays, {[action.className]:action.onOff})}
 					}else {
 						return {...habit}
 					}
@@ -158,6 +249,7 @@ const mapStateToProps = (state /*, ownProps*/) => {
 	return {
 		keyIndex: state.keyIndex,
 		habits : state.habits,
+		footerDays: state.footerDays
 	}
  }
 /**
@@ -166,7 +258,9 @@ const mapStateToProps = (state /*, ownProps*/) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		addHabit : () => dispatch(Actions.addHabit()),
-		modHabit : (key:number, name:string) => dispatch(Actions.modHabit(key, name))
+		modHabit : (key:number, name:string) => dispatch(Actions.modHabit(key, name)),
+		switchHabitAllDays : (onOff:boolean, className:string) => dispatch(Actions.switchHabitAllDays(onOff, className)),
+		switchHabitDay : (key:number, onOff:boolean, className:string) => dispatch(Actions.switchHabitDay(key, onOff, className))
 	}
 }
 
