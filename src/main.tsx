@@ -1,6 +1,5 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 // import fs from 'fs'
-
 let win :BrowserWindow;
 
 function createWindow() {
@@ -14,7 +13,7 @@ function createWindow() {
 	})
 
 	// and load the index.html of the app.
-	win.loadFile('index.html')
+	win.loadFile('../view/index.html')
 
 	// Open the DevTools.
 	win.webContents.openDevTools()

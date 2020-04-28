@@ -29,5 +29,6 @@ table {
 }
 .dayItemHeader {
 	flex-basis:80px;
-	text-align: center;	
+	text-align: center;
+	font-size: small;
 }
