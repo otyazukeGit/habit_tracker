@@ -1,11 +1,38 @@
 import {initialState} from './initialState'
+import {initialStateType} from '../00_type/typs'
+
+/// Typescript type union(|のこと) オブジェクト型だとうまいこと動かない...
+// type ActionType =
+//   {
+// 		// type: 'ADD_Habit'
+// 		type: string
+//     }
+//   | {
+// 		// type: 'UPDATE_Habit'
+// 		type: string,
+// 		habitKey: number,
+// 		habitName: string
+//     }
+//   | {
+// 		// type: 'Switch_Habit_AllDays'
+// 		type: string,
+// 		className: string,
+// 		onOff: boolean
+//     }
+//   | {
+// 		// type: 'Switch_Habit_Day'
+// 		type: string,
+// 		habitKey: number,
+// 		className: string,
+// 		onOff: boolean
+// 	 }
 
 /**
  * Reducer 
  * @param state  初期state will be into Store
  * @param action 更新メソッド分岐名称、第２引数以降はセット用値
  */
-export const reducer = (state = initialState , action) => {
+export const reducer = (state:initialStateType = initialState , action) => {
 		let newMap
 		switch(action.type){
 			case 'ADD_Habit':

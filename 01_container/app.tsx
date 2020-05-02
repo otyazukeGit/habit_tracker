@@ -1,6 +1,4 @@
 import * as React from 'react'
-import {useDispatch, useSelector} from 'react-redux'
-import {habitDaysType, initialStateType} from '../00_type/typs'
 import {HabitHeader} from '../02_component/header'
 import {HabitFooter} from '../02_component/footer'
 import {HabitLane} from '../02_component/habitLane'
