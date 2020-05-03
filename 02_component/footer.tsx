@@ -24,7 +24,7 @@ export const HabitFooter: React.FC<PropsFooter> = (props) => {
 
 	return (
 		<tr>
-			<td style={{textAlign:"right"}}>切り替え</td>
+			<td style={{textAlign:"right"}}>All on/off</td>
 			<td>
 				<div className="days">
 					<div className="dayItemFooter"><input type="checkbox" className="monday" checked={props.footerDays.monday} onChange={e => switchDay(e)}/></div>

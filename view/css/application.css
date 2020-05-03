@@ -15,7 +15,7 @@ table#habits {
 	background-color: aliceblue;
 }
 .habitName {
-	width: 100%;
+	width: 95%;
 	font-size: large;
 }
 .days {

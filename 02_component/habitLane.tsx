@@ -27,7 +27,7 @@ export const HabitLane = (props) => {
 
 	return (
 		<tr className="habitLane">
-			<td><input type="text" className="habitName" value={props.habitName} onChange={(e) => changeText(e)} id="habitName"/></td>
+			<td><input type="text" className="habitName" value={props.habitName} onChange={(e) => changeText(e)} id="habitName" placeholder='新しい習慣を入力してください.'/></td>
 			<td>
 				<div className="days">
 					<div className="dayItem"><input type="checkbox" className="monday" checked={props.habitDays.monday} onChange={(e) => changeDay(e)}/></div>
