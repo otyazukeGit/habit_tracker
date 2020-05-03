@@ -5,7 +5,7 @@ let win :BrowserWindow;
 function createWindow() {
 	// Create the browser window.
 	win = new BrowserWindow({
-		width: 800,
+		width: 1000,
 		height: 600,
 		webPreferences: {
 			nodeIntegration: true
@@ -16,7 +16,12 @@ function createWindow() {
 	win.loadFile('../view/index.html')
 
 	// Open the DevTools.
-	win.webContents.openDevTools()
+	// win.webContents.openDevTools()
+
+// 	win.on('closed', function() {
+// 		win.webContents.session.clearCache()
+// 		win = null
+//   })
 }
 
 // This method will be called when Electron has finished

@@ -1,17 +1,21 @@
-/* table#habits {
-	border-collapse:collapse;  これをすると<tr>にborderが指定できる
-} */
-table {
-	width: 500px;
+table#habits {
+	border: 1;
+	border-collapse:collapse;  /*これをすると<tr>にborderが指定できる*/
+	/* width: 500px; */
+	width: 70%;
 }
+/* table {
+	width: 500px;
+} */
 .habitLaneHeader {
 	background-color: moccasin;
 }
 .habitLane {
+	border: 1px;
 	background-color: aliceblue;
 }
 .habitName {
-	width: 200px;
+	width: 100%;
 	font-size: large;
 }
 .days {
