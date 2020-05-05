@@ -24,8 +24,6 @@ export const HabitLane = (props) => {
 	const changeDay = (e) => {
 		props.dispatch(Actions.switchHabitDay(props.habitKey, e.target.checked, e.target.className))
 	}
-	// console.log("HabitLane")
-	// console.dir(props)
 
 	return (
 		<tr className="habitLane">

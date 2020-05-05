@@ -51,16 +51,19 @@ export const App = () => {
 	const [state, dispatch] = React.useReducer(reducer, initialState)
 
 	const addHabit = () => {
+		// insert into NeDB
+		ipcRenderer.send('data_add', state.keyIndex)	
+		// insert into Store
 		dispatch(Actions.addHabit())
 	}
 	
 	React.useEffect(() => {
 		console.log("effect")
 		ipcRenderer.on('show_itemList', (event, items) => {
-			console.log("show_itemList items2: " + items)
+			console.log("show_itemList items: " + items)
 			dispatch(Actions.setStoreByNedb(items))
 		})
-		ipcRenderer.send('data_find', 'ping')
+		ipcRenderer.send('data_find', 'dummy')
 	}, [dispatch])
 
 	return (

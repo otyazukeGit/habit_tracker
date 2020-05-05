@@ -31,14 +31,29 @@ function createWindow() {
 			}
 			if (docs.length === 0) {
 				console.log('db lengh0')
-				// let doc = { itemId: 9999, body: 'zero' }
-				// db.insert(doc, (err, newDoc) => { })
 			}
-			console.log("Main data_find docs: ")
-			console.dir(docs)
 			event.sender.send('show_itemList', docs);
 		});
 	});
+	
+	ipcMain.on('data_add', function (event, keyIndex) {
+		console.log("db.add()")
+		let doc = {"habits":{
+			habitKey:keyIndex + 1, 
+			habitName:"",
+			habitDays:{
+				monday:false,
+				tuesday:false,
+				wednesday:false,
+				thirsday:false,
+				friday:false,
+				sataday:false,
+				sunday:false
+			}
+		}}
+		db.insert(doc, (err, newDoc) => {})
+		
+	})
 
 	// and load the index.html of the app.
 	win.loadFile('../view/index.html')

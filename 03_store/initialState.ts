@@ -4,7 +4,7 @@ import {initialStateType} from '../00_type/typs'
  * Storeに入れるstate
  */
 export const initialState:initialStateType = {
-	keyIndex:1,
+	keyIndex:1000,
 	habits: [{
 		habitKey:1,
 		habitName:"Name",
