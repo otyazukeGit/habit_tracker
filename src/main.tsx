@@ -23,17 +23,23 @@ function createWindow() {
 
 	ipcMain.on('data_find', function (event, arg) {
 		console.log('Main data_find');
-		db.find({}, function (err, docs) {
+		db.find({}).exec((err, docs) => {
 			console.log("db.find()")
+			const comparison = (a, b) => {
+				return a.habits.habitKey - b.habits.habitKey
+			}
+			docs.sort(comparison)
+
 			if (err) {
 				// event.sender.send('callback_ipc', 'alert from Main precess!');
 				console.error("data_find - error")
 			}
 			if (docs.length === 0) {
-				console.log('db lengh0')
+				console.log('db no data')
 			}
+
 			event.sender.send('show_itemList', docs);
-		});
+		})
 	});
 	
 	ipcMain.on('data_add', function (event, keyIndex) {
