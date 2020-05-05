@@ -35,6 +35,12 @@ import {initialStateType} from '../00_type/typs'
 export const reducer = (state:initialStateType = initialState , action) => {
 		let newMap
 		switch(action.type){
+			case 'SetStoreByNedb':
+				console.log("SetStoreByNedb()")
+				newMap = action.nedb.map((line) => {
+					return line.habits
+				})
+				return Object.assign({}, state, {...state, habits:newMap})
 			case 'ADD_Habit':
 				console.log("ADD_Habit()")
 				return Object.assign({}, state, { 

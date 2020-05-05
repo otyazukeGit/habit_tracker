@@ -11,3 +11,6 @@ export const switchHabitAllDays = (onOff:boolean, className:string) => {
 export const switchHabitDay = (key:number, onOff:boolean, className:string) => {
 	return {type: 'Switch_Habit_Day', habitKey:key, onOff: onOff, className:className}
 }
+export const setStoreByNedb = (nedb:object) => {
+	return {type: 'SetStoreByNedb', nedb:nedb}
+}

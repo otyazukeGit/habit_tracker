@@ -5,6 +5,7 @@ import {HabitLane} from '../02_component/habitLane'
 import {initialState} from '../03_store/initialState'
 import {reducer} from '../03_store/reducer'
 import * as Actions from '../04_action/actions'
+import { ipcRenderer } from 'electron'
 
 // (Hooks)propsに入れ込まないので、Appクラスにprops型定義が必要なくなる。
 /**
@@ -52,6 +53,15 @@ export const App = () => {
 	const addHabit = () => {
 		dispatch(Actions.addHabit())
 	}
+	
+	React.useEffect(() => {
+		console.log("effect")
+		ipcRenderer.on('show_itemList', (event, items) => {
+			console.log("show_itemList items2: " + items)
+			dispatch(Actions.setStoreByNedb(items))
+		})
+		ipcRenderer.send('data_find', 'ping')
+	}, [dispatch])
 
 	return (
 		<div>
