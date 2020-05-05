@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { useDispatch } from 'react-redux'
 import * as Actions from '../04_action/actions'
+import { ipcRenderer } from 'electron'
 
 interface PropsFooter {
 	footerDays:{
@@ -19,6 +19,9 @@ interface PropsFooter {
 export const HabitFooter: React.FC<PropsFooter> = (props) => {
 
 	const switchDay = (e) => {
+		// update NeDB
+		ipcRenderer.send('data_change_OneDaysAll', {className:e.target.className, onOff:e.target.checked})
+		// update Store
 		props.dispatch(Actions.switchHabitAllDays(e.target.checked, e.target.className))
 	}
 

@@ -1,6 +1,7 @@
 import * as React from 'react'
-import {habitDaysType} from '../00_type/typs'
+// import {habitDaysType} from '../00_type/typs'
 import * as Actions from '../04_action/actions'
+import { ipcRenderer } from 'electron'
 
 // interface PropsHabit {
 // 	habitName : string,
@@ -18,10 +19,17 @@ import * as Actions from '../04_action/actions'
 /// 関数コンポーネント実装
 export const HabitLane = (props) => {
 	const changeText = (e) => { //React input.valueの変更はonChangeで制御
+		// update NeDB
+		ipcRenderer.send('data_change_Name', {habitKey:props.habitKey, habitName:e.target.value})
+		// update Store
 		props.dispatch(Actions.modHabit(props.habitKey, e.target.value))
 	}
-
+	
 	const changeDay = (e) => {
+		// update NeDB
+		const habitDay = Object.assign({}, props.habitDays, {[e.target.className]:e.target.checked})
+		ipcRenderer.send('data_change_Day', {habitKey:props.habitKey, habitDays:habitDay, className:e.target.className})
+		// update Store
 		props.dispatch(Actions.switchHabitDay(props.habitKey, e.target.checked, e.target.className))
 	}
 

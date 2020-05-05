@@ -26,7 +26,7 @@ function createWindow() {
 		db.find({}).exec((err, docs) => {
 			console.log("db.find()")
 			const comparison = (a, b) => {
-				return a.habits.habitKey - b.habits.habitKey
+				return a.habitKey - b.habitKey
 			}
 			docs.sort(comparison)
 
@@ -43,8 +43,8 @@ function createWindow() {
 	});
 	
 	ipcMain.on('data_add', function (event, keyIndex) {
-		console.log("db.add()")
-		let doc = {"habits":{
+		console.log("db data_add()")
+		const doc = {
 			habitKey:keyIndex + 1, 
 			habitName:"",
 			habitDays:{
@@ -56,9 +56,50 @@ function createWindow() {
 				sataday:false,
 				sunday:false
 			}
-		}}
+		}
 		db.insert(doc, (err, newDoc) => {})
 		
+	})
+
+	// 習慣 名称変更
+	ipcMain.on('data_change_Name', function (event, arg) {
+		console.log("db data_change_Name()")
+		db.update({ habitKey: arg.habitKey }, { $set: { habitName: arg.habitName } }, {}, function (err, newDoc) {
+			if (err) {
+				console.log('err update: ' + err);
+			}
+			//event.sender.send('callback_ipc', 'Done update!')
+		})
+	})
+
+	// 習慣 曜日On/Off 変更
+	ipcMain.on('data_change_Day', function (event, arg) {
+		console.log("db data_change_Day()")
+		db.update({ habitKey: arg.habitKey }, { $set: { habitDays: arg.habitDays } }, {}, function (err, newDoc) {
+			if (err) {
+				console.log('err update: ' + err);
+			}
+			//event.sender.send('callback_ipc', 'Done update!')
+		})
+	})
+
+	// 全ての習慣 曜日On/Off 変更
+	ipcMain.on('data_change_OneDaysAll', function (event, arg) {
+		console.log("db data_change_OneDaysAll()")
+		db.find({}).exec((err, docs) => {
+			let obj = {}
+			docs.forEach(habits => {
+				obj = Object.assign(habits.habitDays, {...habits.habitDays, [arg.className]:arg.onOff})
+				console.log("habits.habitKey: " + habits.habitKey)
+				console.log(obj)
+				db.update({ habitKey: habits.habitKey }, { $set: { habitDays: obj } }, {}, function (err, newDoc) {
+					if (err) {
+						console.log('err update: ' + err);
+					}
+					//event.sender.send('callback_ipc', 'Done update!')
+				})
+			})
+		})
 	})
 
 	// and load the index.html of the app.

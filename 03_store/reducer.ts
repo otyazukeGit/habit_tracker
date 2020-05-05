@@ -38,9 +38,10 @@ export const reducer = (state:initialStateType = initialState , action) => {
 			case 'SetStoreByNedb':
 				console.log("SetStoreByNedb()")
 				newMap = action.nedb.map((line) => {
-					return line.habits
+					return line
 				})
-				return Object.assign({}, state, {...state, habits:newMap})
+				const nextIndex = Math.max(...action.nedb.map(habits => habits.habitKey))
+				return Object.assign({}, state, {...state, keyIndex:nextIndex, habits:newMap})
 			case 'ADD_Habit':
 				console.log("ADD_Habit()")
 				return Object.assign({}, state, { 

@@ -1,3 +1,2 @@
-{"habits":{"habitKey":1001,"habitName":"","habitDays":{"monday":false,"tuesday":false,"wednesday":false,"thirsday":false,"friday":false,"sataday":false,"sunday":false}},"_id":"42ulo2wM7jqJRaA2"}
-{"habits":{"habitKey":100,"habitName":"Name100","habitDays":{"monday":false,"tuesday":false,"wednesday":false,"thirsday":false,"friday":false,"sataday":false,"sunday":false}},"_id":"OS6xGSlRuHc7HVNl1"}
-{"habits":{"habitKey":200,"habitName":"Name200","habitDays":{"monday":false,"tuesday":false,"wednesday":true,"thirsday":false,"friday":false,"sataday":false,"sunday":false}},"_id":"OS6xGSlRuHc7HVNl2"}
+{"habitKey":100,"habitName":"Name100","habitDays":{"monday":true,"tuesday":false,"wednesday":false,"thirsday":true,"friday":false,"sataday":false,"sunday":true},"_id":"OS6xGSlRuHc7HVNl1"}
+{"habitKey":200,"habitName":"Name200","habitDays":{"monday":false,"tuesday":false,"wednesday":true,"thirsday":true,"friday":false,"sataday":false,"sunday":true},"_id":"OS6xGSlRuHc7HVNl2"}
