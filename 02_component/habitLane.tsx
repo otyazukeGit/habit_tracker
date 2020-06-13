@@ -33,9 +33,18 @@ export const HabitLane = (props) => {
 		props.dispatch(Actions.switchHabitDay(props.habitKey, e.target.checked, e.target.className))
 	}
 
+	const deleteHabit = (e) => {
+		// delete NeDB
+		console.log("data_delete_Habit .key : " + props.habitKey)
+		ipcRenderer.send('data_delete_Habit', {habitKey:props.habitKey})
+		// delte Store
+		props.dispatch(Actions.delHabit(props.habitKey))
+	}
+
 	return (
 		<tr className="habitLane">
 			<td><input type="text" className="habitName" value={props.habitName} onChange={(e) => changeText(e)} id="habitName" placeholder='新しい習慣を入力してください.'/></td>
+			<td><button onClick={deleteHabit}>削除</button></td>
 			<td>
 				<div className="days">
 					<div className="dayItem"><input type="checkbox" className="monday" checked={props.habitDays.monday} onChange={(e) => changeDay(e)}/></div>

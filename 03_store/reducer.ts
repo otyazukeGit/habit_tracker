@@ -34,6 +34,8 @@ import {initialStateType} from '../00_type/typs'
  */
 export const reducer = (state:initialStateType = initialState , action) => {
 		let newMap
+		let new_habits
+		let new_footerDays
 		switch(action.type){
 			case 'SetStoreByNedb':
 				console.log("SetStoreByNedb()")
@@ -76,12 +78,26 @@ export const reducer = (state:initialStateType = initialState , action) => {
 					}
 				})
 				return Object.assign({}, state, { habits: newMap })
+			case 'DELETE_Habit':
+				console.log("DELETE_Habit()")
+				newMap = state.habits.filter(habit => habit.habitKey !== action.habitKey)
+				return Object.assign({}, state, { habits: newMap })
+			case 'Clear_Habit_AllDays':
+				console.log("Clear_Habit_AllDays()")
+				console.log('state.habits')
+				console.dir(state.habits)
+				new_habits = state.habits.map(habit => {
+					return {...habit, habitDays:Object.assign(habit.habitDays,{monday:false,tuesday:false,wednesday:false,thirsday:false,friday:false,sataday:false,sunday:false })}
+				})
+				console.log('new_habits')
+				console.dir(new_habits)
+				return Object.assign({}, state, { habits: new_habits })
 			case 'Switch_Habit_AllDays':
 				console.log("Switch_Habit_AllDays()")
-				let new_habits = state.habits.map(habit => {
+				new_habits = state.habits.map(habit => {
 					return {...habit, habitDays:Object.assign(habit.habitDays, {[action.className]:action.onOff})}
 				})
-				let new_footerDays = Object.assign({}, state.footerDays, {[action.className]:action.onOff})
+				new_footerDays = Object.assign({}, state.footerDays, {[action.className]:action.onOff})
 				return Object.assign({}, state, { 
 					habits: new_habits,
 					footerDays: new_footerDays})

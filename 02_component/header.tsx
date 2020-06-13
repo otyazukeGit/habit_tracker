@@ -9,7 +9,8 @@ export const HabitHeader = () => {
 // export const HabitHeader: React.FC<Props> = (props) => {   // 試し
 	return (
 		<tr>
-			<th></th>
+			<th className="habitLane"><b>習慣</b></th>
+			<th className="habitLane"></th>
 			<th>
 				<div className="days habitLaneHeader">
 					<div className="dayItemHeader">Mon</div>

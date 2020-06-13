@@ -4,10 +4,10 @@ import {initialStateType} from '../00_type/typs'
  * Storeに入れるstate
  */
 export const initialState:initialStateType = {
-	keyIndex:1000,
+	keyIndex:1,
 	habits: [{
 		habitKey:1,
-		habitName:"Name",
+		habitName:"",
 		// habitDays:[false,false,false,false,false,false,false]
 		habitDays:{
 			monday:false,

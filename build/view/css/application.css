@@ -1,3 +1,6 @@
+body {
+	background-color: wheat;
+}
 table#habits {
 	border: 1;
 	border-collapse:collapse;  /*これをすると<tr>にborderが指定できる*/
@@ -8,7 +11,8 @@ table#habits {
 	width: 500px;
 } */
 .habitLaneHeader {
-	background-color: moccasin;
+	background-color: darkkhaki;
+	border:1px solid mediumblue; 
 }
 .habitLane {
 	border: 1px;

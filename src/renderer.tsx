@@ -19,13 +19,13 @@ ReactDOM.render(
 		<HashRouter>
 			<App/>
 			<ul>
-				<li><Link to="/a">HelpPageA</Link></li>
-				<li><Link to="/b">HelpPageB</Link></li>
+				<li><Link to="/a">HelpPage</Link></li>
+				{/* <li><Link to="/b">HelpPageB</Link></li> */}
 			</ul>
 			
 			<Switch>
 				<Route exact path="/a"><HelpPageA/></Route>
-				<Route exact path="/b"><HelpPageB/></Route>
+				{/* <Route exact path="/b"><HelpPageB/></Route> */}
 			</Switch>
 		</HashRouter>
 		, document.getElementById('root')

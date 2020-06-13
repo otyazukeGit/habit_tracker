@@ -57,6 +57,13 @@ export const App = () => {
 		dispatch(Actions.addHabit())
 	}
 	
+	const clearHabitAllDays = () => {
+		// update NeDB
+		ipcRenderer.send('data_clear_AllDays')
+		// update Store
+		dispatch(Actions.clearHabitAllDays())
+	}
+	
 	React.useEffect(() => {
 		console.log("effect")
 		ipcRenderer.on('show_itemList', (event, items) => {
@@ -69,7 +76,10 @@ export const App = () => {
 	return (
 		<div>
 			<h1>Habit Tracker!!</h1>
-			<button onClick={addHabit}>習慣追加</button>
+			<button onClick={addHabit}>習慣を追加</button>
+			　
+			<button onClick={clearHabitAllDays}>チェックをクリア</button>
+			<br/>
 			<div className="OutBorder">
 				<table id="habits">
 					<tbody>

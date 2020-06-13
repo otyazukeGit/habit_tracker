@@ -1,9 +1,9 @@
 const path = require('path');
 
-const outputPath = path.join(__dirname, 'dist')
+const outputPath = path.join(__dirname, 'build')
 
 const mainConfig = {
-	mode: "development",
+	mode: "production",
 	target: 'electron-main',
 	entry: "./src/main.tsx",
 	output: {
@@ -24,7 +24,7 @@ const mainConfig = {
 }
 
 const rendererConfig = {
-	mode: "development",
+	mode: "production",
 	target: 'electron-renderer',
 	entry: "./src/renderer.tsx",
 	output: {
@@ -41,6 +41,12 @@ const rendererConfig = {
 	},
 	resolve: {
 		extensions: [".ts", ".tsx", ".js", ".json"]
+	},
+	node: {
+		// 起動時に発生する Not allowed to load local resource 対策
+		// https://github.com/electron/electron/issues/4867
+		__dirname: false,
+		__filename: false
 	}
 }
 

@@ -5,6 +5,12 @@ export const addHabit = () => {
 export const modHabit = (key:number, name:string) => {
 	return {type: 'UPDATE_Habit', habitKey:key, habitName: name}
 }
+export const delHabit = (key:number) => {
+	return {type: 'DELETE_Habit', habitKey:key}
+}
+export const clearHabitAllDays = () => {
+	return {type: 'Clear_Habit_AllDays'}
+}
 export const switchHabitAllDays = (onOff:boolean, className:string) => {
 	return {type: 'Switch_Habit_AllDays', onOff: onOff, className:className}
 }
