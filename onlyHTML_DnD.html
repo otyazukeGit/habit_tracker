@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style type="text/css">
+		#first_place {
+			/* display: flex; */
+			display: block;
+			border: solid;
+			border-color: blue;
+			width: 300px;
+		}
+
+		p {
+			display: block;
+			border: solid;
+			border-color: black;
+			width: 100px;
+			text-align: center;
+			padding: 10px;
+			margin: 2px;
+		}
+
+		#second_place {
+			display: block;
+			border: solid;
+			border-color: yellowgreen;
+			width: 300px;
+		}
+
+		.dropzone {
+			border-color: red;
+			background-color: silver;
+		}
+		.dropzone::after {
+			content: "Drop Zone";
+			text-align: center;
+			/* position: absolute; */
+			left: 0;
+			/* width: 100%; */
+			line-height: 100px;
+		}
+
+	</style>
+	<script type="text/javascript">
+
+		function myDrogOver(e){
+			e.preventDefault()
+			// e.dataTransfer.dropEffect = "copy"
+
+			let ele = document.getElementById("second_place")
+			ele.classList.add("dropzone")
+		}
+
+		function myDragLeave(e) {
+			let ele = document.getElementById("second_place")
+			ele.classList.remove("dropzone")
+		}
+
+		function myDragStart(e){
+			// e.dataTransfer.effectAllowed = "copy"
+			e.dataTransfer.setData("text", e.target.id)
+			// e.dataTransfer.setData("text", e.target.textContent)
+		}
+
+		function myDrop(e){
+			e.preventDefault();
+			let data = e.dataTransfer.getData("text");
+			// console.log("data : " + data);
+			// alert(data)
+
+			// appendChildでドラッグ元から消える
+			e.target.appendChild(document.getElementById(data));
+
+			let ele = document.getElementById("second_place")
+			ele.classList.remove("dropzone")
+		}
+
+	</script>
+
+</head>
+<body>
+	<div id="first_place">
+		A
+		<p id="p1">1111111</p>
+		<p id="p2">2222222</p>
+		<p id="p3">3333333</p>
+		<p id="p4" draggable="true" ondragstart="myDragStart(event)">4444444</p>
+	</div>
+	<div id="second_place" ondragover="myDrogOver(event)" ondrop="myDrop(event)" ondragleave="myDragLeave(event)">B</div>
+</body>
+</html>

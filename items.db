@@ -1,10 +1,10 @@
-{"habitKey":1,"habitName":"（朝）６時、散歩 / 懸垂 / ブログ","habitDays":{"monday":false,"tuesday":false,"wednesday":false,"thirsday":false,"friday":false,"sataday":true,"sunday":false},"_id":"5DBBWF2JZpwuYlIX"}
-{"habitKey":8,"habitName":"（夜）Youtube(1~) / 英語","habitDays":{"monday":false,"tuesday":true,"wednesday":false,"thirsday":false,"friday":true,"sataday":false,"sunday":false},"_id":"BzbIuEQLSveV96pi"}
+{"habitKey":1,"habitName":"（朝）６時、散歩、(懸垂)","habitDays":{"monday":false,"tuesday":false,"wednesday":false,"thirsday":false,"friday":false,"sataday":false,"sunday":false},"_id":"5DBBWF2JZpwuYlIX"}
+{"habitKey":8,"habitName":"（夜）勉強：Youtube、英語、App","habitDays":{"monday":false,"tuesday":false,"wednesday":false,"thirsday":false,"friday":false,"sataday":false,"sunday":false},"_id":"BzbIuEQLSveV96pi"}
 {"habitKey":5,"habitName":"情報収集（海外就業）","habitDays":{"monday":false,"tuesday":false,"wednesday":false,"thirsday":false,"friday":false,"sataday":false,"sunday":false},"_id":"HFWgvpwwpEl3rTtY"}
 {"habitKey":11,"habitName":"収集物から補給.","habitDays":{"monday":false,"tuesday":false,"wednesday":false,"thirsday":false,"friday":false,"sataday":false,"sunday":false},"_id":"KcLeL64ZPC0WfoQk"}
-{"habitKey":7,"habitName":"站椿功・丹田功","habitDays":{"monday":true,"tuesday":true,"wednesday":false,"thirsday":false,"friday":false,"sataday":false,"sunday":false},"_id":"Lcm8dK8JrEdcxt2x"}
-{"habitKey":6,"habitName":"（昼）歯磨き / 30min SUM up","habitDays":{"monday":true,"tuesday":false,"wednesday":false,"thirsday":false,"friday":false,"sataday":false,"sunday":false},"_id":"Nahbj5G5KRMrmmRn"}
-{"habitKey":9,"habitName":"1ページイラスト練習","habitDays":{"monday":true,"tuesday":true,"wednesday":false,"thirsday":false,"friday":true,"sataday":false,"sunday":false},"_id":"REIS16Gf25eAf2q4"}
-{"habitKey":3,"habitName":"ブログ更新","habitDays":{"monday":true,"tuesday":true,"wednesday":false,"thirsday":false,"friday":false,"sataday":false,"sunday":false},"_id":"ZlArH60a93Whk2uE"}
-{"habitKey":10,"habitName":"(英語) 英作文・ 1 tw","habitDays":{"monday":false,"tuesday":false,"wednesday":false,"thirsday":false,"friday":true,"sataday":false,"sunday":false},"_id":"gwlIbRQFKfm8TlfD"}
-{"habitKey":2,"habitName":"プランク・腕立て","habitDays":{"monday":true,"tuesday":true,"wednesday":false,"thirsday":false,"friday":true,"sataday":false,"sunday":false},"_id":"nbBhc1wIlFbzKGdE"}
+{"habitKey":7,"habitName":"站椿功・丹田功","habitDays":{"monday":false,"tuesday":false,"wednesday":false,"thirsday":false,"friday":false,"sataday":false,"sunday":false},"_id":"Lcm8dK8JrEdcxt2x"}
+{"habitKey":6,"habitName":"（昼）歯磨き / 30min SUM up","habitDays":{"monday":false,"tuesday":false,"wednesday":false,"thirsday":false,"friday":false,"sataday":false,"sunday":false},"_id":"Nahbj5G5KRMrmmRn"}
+{"habitKey":9,"habitName":"1ページイラスト練習","habitDays":{"monday":false,"tuesday":false,"wednesday":false,"thirsday":false,"friday":false,"sataday":false,"sunday":false},"_id":"REIS16Gf25eAf2q4"}
+{"habitKey":3,"habitName":"ブログ更新","habitDays":{"monday":false,"tuesday":false,"wednesday":false,"thirsday":false,"friday":false,"sataday":false,"sunday":false},"_id":"ZlArH60a93Whk2uE"}
+{"habitKey":10,"habitName":"(英語) 英作文・ 1 tw","habitDays":{"monday":false,"tuesday":false,"wednesday":false,"thirsday":false,"friday":false,"sataday":false,"sunday":false},"_id":"gwlIbRQFKfm8TlfD"}
+{"habitKey":2,"habitName":"プランク・腕立て","habitDays":{"monday":false,"tuesday":false,"wednesday":true,"thirsday":false,"friday":false,"sataday":false,"sunday":false},"_id":"nbBhc1wIlFbzKGdE"}

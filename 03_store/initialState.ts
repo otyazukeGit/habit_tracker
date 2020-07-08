@@ -27,5 +27,6 @@ export const initialState:initialStateType = {
 		friday:false,
 		sataday:false,
 		sunday:false
-	}
+	},
+	habitOrder:[]
 }

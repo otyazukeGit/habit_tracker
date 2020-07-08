@@ -31,41 +31,68 @@ let win :BrowserWindow;
 		}
 	})
 
-	// DBロード
-	const dbPathFile = path.join(app.getAppPath(),'../items.db')
-	console.log("dbPathFile : " + dbPathFile)
-	if (!fs.existsSync(dbPathFile)){
-		console.log("no DB file.")
-		fs.writeFileSync(dbPathFile, '');
+	const db:any = {}
+	const dbLoad = async (dbName,filePath) => {
+		const dbPathFile = path.join(app.getAppPath(),'../',filePath)
+		console.log("dbPathFile : " + dbPathFile)
+		if (!fs.existsSync(dbPathFile)){
+			console.log("no DB file... ", dbPathFile)
+			fs.writeFileSync(dbPathFile, '');
+		} else {
+			console.log('db file exists.');
+		}
+		db[dbName] = new Datastore({ filename: dbPathFile, autoload: false })
+		await db[dbName].loadDatabase();
 	}
-	// const db = new Datastore({ filename: 'items.db', autoload: false })
-	const db = new Datastore({ filename: dbPathFile, autoload: false })
-	db.loadDatabase();
+	dbLoad('habits', 'items.db')
+	dbLoad('order', 'order.db')
+	// let doc1 = {"habitOrder":[4,5,6]}
+	// db.order.insert(doc1, (err, newDoc) => {})
 
 	ipcMain.on('data_find', function (event, arg) {
 		console.log('Main data_find');
-		db.find({}).exec((err, docs) => {
-			console.log("db.find()")
+
+		// Habit オーダ順
+		let orderDb
+		db.order.find({}).exec((err, order) => {
+			orderDb = order[0].habitOrder
+			console.log('habitOrder: ', orderDb);
+		})
+
+		// Habit データ
+		db.habits.find({}).exec((err, habits) => {
+			console.log("db.habits.find()")
 			if (err) {
 				// event.sender.send('callback_ipc', 'alert from Main precess!');
 				console.error("data_find - error")
 				return
 			}
-			if (docs.length === 0) {
+			if (habits.length === 0) {
 				console.log('db no data')
 				return
 			}
 
-			const comparison = (a, b) => {
-				return a.habitKey - b.habitKey
-			}
-			docs.sort(comparison)
+			// const comparison = (a, b) => {
+			// 	return a.habitKey - b.habitKey
+			// }
+			// docs.sort(comparison)
+			// event.sender.send('show_itemList', docs);
 
-			event.sender.send('show_itemList', docs);
+			let new_docs = orderDb.map(order => {
+				for(let i=0 ; i < habits.length ; i++){
+					if(habits[i].habitKey == order){
+						// console.log('habits[i]: ', habits[i]);
+						return habits[i]
+					}
+				}
+			})
+			// console.log('new_docs : ', new_docs)
+	
+			event.sender.send('show_itemList', new_docs, orderDb);
 		})
 	});
 	
-	ipcMain.on('data_add', function (event, keyIndex) {
+	ipcMain.on('data_add', function (event, keyIndex, habitOrder) {
 		console.log("db data_add()")
 		const doc = {
 			habitKey:keyIndex + 1, 
@@ -80,14 +107,20 @@ let win :BrowserWindow;
 				sunday:false
 			}
 		}
-		db.insert(doc, (err, newDoc) => {})
+		db.habits.insert(doc, (err, newDoc) => {})
+
+		console.log('habitOrder before update: ', habitOrder);
+		habitOrder.splice(habitOrder.length, 0, keyIndex + 1)
+		console.log('habitOrder after update: ', habitOrder);
+		// db.order.update({$not: { habitOrder: 0 }}, {$set: { habitOrder: habitOrder}}, { multi: true }, (err, newDoc) => {})
+		db.order.update({}, {$set: { habitOrder: habitOrder}}, { multi: true }, (err, newDoc) => {})
 		
 	})
 
 	// 習慣 名称変更
 	ipcMain.on('data_change_Name', function (event, arg) {
 		console.log("db data_change_Name()")
-		db.update({ habitKey: arg.habitKey }, { $set: { habitName: arg.habitName } }, {}, function (err, newDoc) {
+		db.habits.update({ habitKey: arg.habitKey }, { $set: { habitName: arg.habitName } }, {}, function (err, newDoc) {
 			if (err) {
 				console.log('err update: ' + err);
 			}
@@ -98,7 +131,7 @@ let win :BrowserWindow;
 	// 習慣 曜日On/Off 変更
 	ipcMain.on('data_change_Day', function (event, arg) {
 		console.log("db data_change_Day()")
-		db.update({ habitKey: arg.habitKey }, { $set: { habitDays: arg.habitDays } }, {}, function (err, newDoc) {
+		db.habits.update({ habitKey: arg.habitKey }, { $set: { habitDays: arg.habitDays } }, {}, function (err, newDoc) {
 			if (err) {
 				console.log('err update: ' + err);
 			}
@@ -109,7 +142,7 @@ let win :BrowserWindow;
 	// 習慣 行削除
 	ipcMain.on('data_delete_Habit', function (event, arg) {
 		console.log("db data_delete_Habit()")
-		db.remove({ habitKey: arg.habitKey }, {}, function (err, newDoc) {
+		db.habits.remove({ habitKey: arg.habitKey }, {}, function (err, newDoc) {
 			if (err) {
 				console.log('err update: ' + err);
 			}
@@ -121,24 +154,24 @@ let win :BrowserWindow;
 	ipcMain.on('data_clear_AllDays', function(event, arg) {
 		console.log("db data_clear_AllDays()")
 		const days = { monday:false,tuesday:false,wednesday:false,thirsday:false,friday:false,sataday:false,sunday:false }
-		db.update({}, { $set: { habitDays: days } }, {multi: true}, function (err, newDoc) {
+		db.habits.update({}, { $set: { habitDays: days } }, {multi: true}, function (err, newDoc) {
 			if (err) {
 				console.log('err update: ' + err);
 			}
 			//event.sender.send('callback_ipc', 'Done update!')
 		})
-})
+	})
 
 	// 全ての習慣 １曜日On/Off 切り替え
 	ipcMain.on('data_change_OneDaysAll', function (event, arg) {
 		console.log("db data_change_OneDaysAll()")
-		db.find({}).exec((err, docs) => {
+		db.habits.find({}).exec((err, docs) => {
 			let obj = {}
 			docs.forEach(habits => {
 				obj = Object.assign(habits.habitDays, {...habits.habitDays, [arg.className]:arg.onOff})
 				console.log("habits.habitKey: " + habits.habitKey)
 				console.log(obj)
-				db.update({ habitKey: habits.habitKey }, { $set: { habitDays: obj } }, {}, function (err, newDoc) {
+				db.habits.update({ habitKey: habits.habitKey }, { $set: { habitDays: obj } }, {}, function (err, newDoc) {
 					if (err) {
 						console.log('err update: ' + err);
 					}
@@ -146,6 +179,12 @@ let win :BrowserWindow;
 				})
 			})
 		})
+	})
+
+	// 習慣 順序の更新
+	ipcMain.on('data_reorder_habits', function (event, newOrder) {
+		console.log("db data_reorder_habits() - newOrder", newOrder)  //not defined ?
+		db.order.update({}, { $set: { habitOrder: newOrder } }, { multi: true}, (err, newDoc) => {})
 	})
 
 	win.webContents.on('new-window', (event, url) => {
@@ -176,7 +215,7 @@ let win :BrowserWindow;
   })
 
 	// Open the DevTools.
-	// win.webContents.openDevTools()
+	win.webContents.openDevTools()
 }
 
 // This method will be called when Electron has finished

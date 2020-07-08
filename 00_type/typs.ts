@@ -17,5 +17,6 @@ export interface initialStateType {
 		// habitDays:boolean[]
 		habitDays:habitDaysType,
 	}],
-	footerDays:habitDaysType
+	footerDays:habitDaysType,
+	habitOrder:number[]
 }

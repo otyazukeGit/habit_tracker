@@ -2,6 +2,7 @@ import * as React from 'react'
 // import {habitDaysType} from '../00_type/typs'
 import * as Actions from '../04_action/actions'
 import { ipcRenderer } from 'electron'
+import { Draggable } from 'react-beautiful-dnd'
 
 // interface PropsHabit {
 // 	habitName : string,
@@ -18,6 +19,7 @@ import { ipcRenderer } from 'electron'
  */
 /// 関数コンポーネント実装
 export const HabitLane = (props) => {
+	console.log('render HabitLane..');
 	const changeText = (e) => { //React input.valueの変更はonChangeで制御
 		// update NeDB
 		ipcRenderer.send('data_change_Name', {habitKey:props.habitKey, habitName:e.target.value})
@@ -42,21 +44,32 @@ export const HabitLane = (props) => {
 	}
 
 	return (
-		<tr className="habitLane">
-			<td><input type="text" className="habitName" value={props.habitName} onChange={(e) => changeText(e)} id="habitName" placeholder='新しい習慣を入力してください.'/></td>
-			<td><button onClick={deleteHabit}>削除</button></td>
-			<td>
-				<div className="days">
-					<div className="dayItem"><input type="checkbox" className="monday" checked={props.habitDays.monday} onChange={(e) => changeDay(e)}/></div>
-					<div className="dayItem"><input type="checkbox" className="tuesday" checked={props.habitDays.tuesday} onChange={(e) => changeDay(e)}/></div>
-					<div className="dayItem"><input type="checkbox" className="wednesday" checked={props.habitDays.wednesday} onChange={(e) => changeDay(e)}/></div>
-					<div className="dayItem"><input type="checkbox" className="thirsday" checked={props.habitDays.thirsday} onChange={(e) => changeDay(e)}/></div>
-					<div className="dayItem"><input type="checkbox" className="friday" checked={props.habitDays.friday} onChange={(e) => changeDay(e)}/></div>
-					<div className="dayItem"><input type="checkbox" className="sataday" checked={props.habitDays.sataday} onChange={(e) => changeDay(e)}/></div>
-					<div className="dayItem"><input type="checkbox" className="sunday" checked={props.habitDays.sunday} onChange={(e) => changeDay(e)}/></div>
-				</div>
-			</td>
-		</tr>
+		// [draggableId] mult be String.
+		// [index] must be unique within a <Droppable /> and be consecutive. [0, 1, 2] and not [0, 1, 8] , need not start from 0.
+		<Draggable draggableId={props.habitKey.toString()} index={props.index}>
+			{(provided, snapshot) => (
+				<tr 
+					className="habitLane"
+					ref={provided.innerRef}
+					{...provided.draggableProps}
+					{...provided.dragHandleProps}
+				>
+					<td><input type="text" className="habitName" value={props.habitName} onChange={(e) => changeText(e)} id="habitName" placeholder='新しい習慣を入力してください.'/></td>
+					<td><button onClick={deleteHabit}>削除</button></td>
+					<td>
+						<div className="days">
+							<div className="dayItem"><input type="checkbox" className="monday" checked={props.habitDays.monday} onChange={(e) => changeDay(e)}/></div>
+							<div className="dayItem"><input type="checkbox" className="tuesday" checked={props.habitDays.tuesday} onChange={(e) => changeDay(e)}/></div>
+							<div className="dayItem"><input type="checkbox" className="wednesday" checked={props.habitDays.wednesday} onChange={(e) => changeDay(e)}/></div>
+							<div className="dayItem"><input type="checkbox" className="thirsday" checked={props.habitDays.thirsday} onChange={(e) => changeDay(e)}/></div>
+							<div className="dayItem"><input type="checkbox" className="friday" checked={props.habitDays.friday} onChange={(e) => changeDay(e)}/></div>
+							<div className="dayItem"><input type="checkbox" className="sataday" checked={props.habitDays.sataday} onChange={(e) => changeDay(e)}/></div>
+							<div className="dayItem"><input type="checkbox" className="sunday" checked={props.habitDays.sunday} onChange={(e) => changeDay(e)}/></div>
+						</div>
+					</td>
+				</tr>
+			)}
+		</Draggable>
 	)
 }
 
