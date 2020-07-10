@@ -19,7 +19,7 @@ import { Draggable } from 'react-beautiful-dnd'
  */
 /// 関数コンポーネント実装
 export const HabitLane = (props) => {
-	console.log('render HabitLane..');
+	// console.log('render HabitLane..');
 	const changeText = (e) => { //React input.valueの変更はonChangeで制御
 		// update NeDB
 		ipcRenderer.send('data_change_Name', {habitKey:props.habitKey, habitName:e.target.value})
@@ -49,14 +49,14 @@ export const HabitLane = (props) => {
 		<Draggable draggableId={props.habitKey.toString()} index={props.index}>
 			{(provided, snapshot) => (
 				<tr 
-					className="habitLane"
+					className={"basic_bg"}
 					ref={provided.innerRef}
 					{...provided.draggableProps}
 					{...provided.dragHandleProps}
 				>
-					<td><input type="text" className="habitName" value={props.habitName} onChange={(e) => changeText(e)} id="habitName" placeholder='新しい習慣を入力してください.'/></td>
+					<td className="habitName"><input type="text" value={props.habitName} onChange={(e) => changeText(e)} className="habitName_input" placeholder='新しい習慣を入力してください.'/></td>
 					<td><button onClick={deleteHabit}>削除</button></td>
-					<td>
+					<td className="daysLane">
 						<div className="days">
 							<div className="dayItem"><input type="checkbox" className="monday" checked={props.habitDays.monday} onChange={(e) => changeDay(e)}/></div>
 							<div className="dayItem"><input type="checkbox" className="tuesday" checked={props.habitDays.tuesday} onChange={(e) => changeDay(e)}/></div>

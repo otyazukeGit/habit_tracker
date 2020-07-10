@@ -8,22 +8,24 @@ import {useSelector} from 'react-redux'
 export const HabitHeader = () => {
 // export const HabitHeader: React.FC<Props> = (props) => {   // 試し
 	return (
-		<tr>
-			<th className="habitLane"><b>習慣</b></th>
-			<th className="habitLane"></th>
-			<th>
-				<div className="days habitLaneHeader">
-					<div className="dayItemHeader">Mon</div>
-					<div className="dayItemHeader">Tue</div>
-					<div className="dayItemHeader">Wed</div>
-					<div className="dayItemHeader">Thr</div>
-					<div className="dayItemHeader">Fri</div>
-					<div className="dayItemHeader">Sat</div>
-					<div className="dayItemHeader">Sun</div>
-					{/* <div>{props.keyIndex}</div>   //試し  */}
-				</div>
-			</th>
-		</tr>
+		<thead>
+			<tr>
+				<th className={"basic_bg" + " " + "habitName"}><b>習慣</b></th>
+				<th className="basic_bg"></th>
+				<th>
+					<div className={"days" + " " + "habitLaneHeader"}>
+						<div className="dayItemHeader">Mon</div>
+						<div className="dayItemHeader">Tue</div>
+						<div className="dayItemHeader">Wed</div>
+						<div className="dayItemHeader">Thr</div>
+						<div className="dayItemHeader">Fri</div>
+						<div className="dayItemHeader">Sat</div>
+						<div className="dayItemHeader">Sun</div>
+						{/* <div>{props.keyIndex}</div>   //試し  */}
+					</div>
+				</th>
+			</tr>
+		</thead>
 	)
 }
 

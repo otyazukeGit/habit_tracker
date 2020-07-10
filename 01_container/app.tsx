@@ -7,6 +7,9 @@ import {reducer} from '../03_store/reducer'
 import * as Actions from '../04_action/actions'
 import { ipcRenderer } from 'electron'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
+import { Button } from '@material-ui/core';
+import styled from 'styled-components'
+
 
 // (Hooks)propsに入れ込まないので、Appクラスにprops型定義が必要なくなる。
 /**
@@ -121,48 +124,53 @@ export const App = () => {
 		ipcRenderer.send('data_find', 'dummy')
 	}, [dispatch])
 
+	const Rows = styled.div`
+		color: inherit;
+	`
+
 
 	console.log('sortedHabits: ', sortedHabits);
 
 
 	return (
 		<div>
-			<h1>Habit Tracker!! {state.habitOrder[0]}</h1>
-			<button onClick={addHabit}>習慣を追加</button>
+			<h1>Habit Tracker</h1>
+			<Button onClick={addHabit} variant="contained" color="primary">習慣を追加</Button>
 			　
-			<button onClick={clearHabitAllDays}>チェックをクリア</button>
+			<Button onClick={clearHabitAllDays} variant="contained" color="primary">チェックをクリア</Button>
 			<br/>
 			<div className="OutBorder">
 			<DragDropContext onDragEnd={onDragEnd}>
 				<table id="habits">
-					<tbody>
-						<HabitHeader/>
+					<HabitHeader/>
 						<Droppable droppableId="habitList"  type="task">
 							{(provided, snapshot) => (
-								<div
+								<Rows
 									ref={provided.innerRef} 
 									{...provided.droppableProps}
 									// {/* isDraggingOver={snapshot.isDraggingOver} */}
+									className="habitLane"
 								>
-									{/* {state.habits.map( (habit, index) => ( */}
-									{sortedHabits.map( (habit, index) => (
-										<HabitLane 
-											habitName={habit.habitName} 
-											key={habit.habitKey} 
-											habitKey={habit.habitKey} 
-											habitDays={habit.habitDays} 
-											dispatch={dispatch}
-											index={index}
-										/>)
-									)}
-									{provided.placeholder}
-								</div>
+									<tbody>
+										{/* {state.habits.map( (habit, index) => ( */}
+										{sortedHabits.map( (habit, index) => (
+											<HabitLane 
+												habitName={habit.habitName} 
+												key={habit.habitKey} 
+												habitKey={habit.habitKey} 
+												habitDays={habit.habitDays} 
+												dispatch={dispatch}
+												index={index}
+											/>)
+										)}
+										{provided.placeholder}
+									</tbody>
+								</Rows>
 							)}
 							</Droppable>
 						<HabitFooter footerDays={state.footerDays} dispatch={dispatch}/>
-					</tbody>
 				</table>
-						</DragDropContext>
+			</DragDropContext>
 			</div>
 		</div>
 	)

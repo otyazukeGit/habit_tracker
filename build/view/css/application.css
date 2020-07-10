@@ -5,7 +5,7 @@ table#habits {
 	border: 1;
 	border-collapse:collapse;  /*これをすると<tr>にborderが指定できる*/
 	/* width: 500px; */
-	width: 70%;
+	/* width: 70%; */
 }
 /* table {
 	width: 500px;
@@ -14,29 +14,37 @@ table#habits {
 	background-color: darkkhaki;
 	border:1px solid mediumblue; 
 }
-.habitLane {
-	border: 1px;
+.basic_bg {
+	/* border: 1px; */
 	background-color: aliceblue;
 }
+.habitLane {
+	width: 500px
+}
 .habitName {
+	width: 300px;
+}
+.habitName_input {
 	width: 95%;
 	font-size: large;
 }
+.daysLane {
+	width: 100px;
+}
 .days {
 	display: flex;
-	/* width: 500px; */
 }
 .dayItem {
-	flex-basis:80px;
+	flex-basis:50px;
 	border:1px solid mediumblue; 
 	text-align: center;	
 }
 .dayItemFooter {
-	flex-basis:80px;
+	flex-basis:50px;
 	text-align: center;	
 }
 .dayItemHeader {
-	flex-basis:80px;
+	flex-basis:50px;
 	text-align: center;
 	font-size: small;
 }
