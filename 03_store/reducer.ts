@@ -36,6 +36,7 @@ export const reducer = (state:initialStateType = initialState , action) => {
 		let newMap
 		let new_habits
 		let new_footerDays
+		let newOrder
 		switch(action.type){
 			case 'SetStoreByNedb':
 				console.log('reducer SetStoreByNedb action: ', action);
@@ -44,16 +45,17 @@ export const reducer = (state:initialStateType = initialState , action) => {
 				})
 				const nextIndex = Math.max(...action.nedb.map(habits => habits.habitKey))
 				return Object.assign({}, state, {...state, keyIndex:nextIndex, habits:newMap, habitOrder:action.order})
+
 			case 'ADD_Habit':
 				console.log("ADD_Habit()")
 				// console.log(' -------------- ');
 				// console.log('state.habitOrder: ', state.habitOrder);
 				// console.log('state.habitOrder.length: ', state.habitOrder.length);
 				// console.log('state.keyIndex: ', state.keyIndex);
-				let newOrder = state.habitOrder
+				newOrder = state.habitOrder
 				newOrder.splice(newOrder.length, 0, state.keyIndex + 1)
 				console.log('newOrder: ', newOrder);
-			return Object.assign({}, state, { 
+				return Object.assign({}, state, { 
 					keyIndex: state.keyIndex + 1,
 					habits: state.habits.concat({
 						habitKey:state.keyIndex + 1, 
@@ -71,6 +73,7 @@ export const reducer = (state:initialStateType = initialState , action) => {
 					}),  // pushだとstate変更になるので、Reactが変更感知しないっぽい.
 					habitOrder: newOrder
 				})
+
 			case 'UPDATE_Habit':
 				console.log("UPDATE_Habit()")
 				newMap = state.habits.map((habit)=>{
@@ -86,13 +89,18 @@ export const reducer = (state:initialStateType = initialState , action) => {
 					}
 				})
 				return Object.assign({}, state, { habits: newMap })
+
 			case 'DELETE_Habit':
 				console.log("DELETE_Habit()")
 				newMap = state.habits.filter(habit => habit.habitKey !== action.habitKey)
-				return Object.assign({}, state, { habits: newMap })
+				newOrder = state.habitOrder
+				newOrder.splice(newOrder.indexOf(action.habitKey), 1)
+				return Object.assign({}, state, { habits: newMap, habitOrder:newOrder })
+
 			case 'Reorder_Habit':
 				console.log("Reorder_Habit() - action.order", action.order)
 				return Object.assign({}, state, { habitOrder: action.order })
+
 			case 'Clear_Habit_AllDays':
 				console.log("Clear_Habit_AllDays()")
 				console.log('state.habits')
@@ -103,6 +111,7 @@ export const reducer = (state:initialStateType = initialState , action) => {
 				console.log('new_habits')
 				console.dir(new_habits)
 				return Object.assign({}, state, { habits: new_habits })
+
 			case 'Switch_Habit_AllDays':
 				console.log("Switch_Habit_AllDays()")
 				new_habits = state.habits.map(habit => {
@@ -112,6 +121,7 @@ export const reducer = (state:initialStateType = initialState , action) => {
 				return Object.assign({}, state, { 
 					habits: new_habits,
 					footerDays: new_footerDays})
+
 			case 'Switch_Habit_Day':
 				console.log("Switch_Habit_Day()")
 				newMap = state.habits.map((habit)=>{
@@ -122,6 +132,7 @@ export const reducer = (state:initialStateType = initialState , action) => {
 					}
 				})
 				return Object.assign({}, state, { habits: newMap })
+
 			default:
 				return state
 	}

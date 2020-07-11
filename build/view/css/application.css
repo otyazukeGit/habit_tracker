@@ -1,50 +1,46 @@
 body {
-	background-color: wheat;
+	/* background-color: wheat; */
+	background-color: white;
 }
-table#habits {
-	border: 1;
-	border-collapse:collapse;  /*これをすると<tr>にborderが指定できる*/
-	/* width: 500px; */
-	/* width: 70%; */
+button {
+	margin-left: 3px;
+	margin-bottom: 3px;
 }
-/* table {
-	width: 500px;
+/* .outBorder {
+	border: 1px solid black;
 } */
 .habitLaneHeader {
-	background-color: darkkhaki;
+	/* background-color: darkkhaki; */
+	background-color: rgb(215, 231, 245);
 	border:1px solid mediumblue; 
+	/* border:1px solid rgb(191, 191, 216);  */
 }
 .basic_bg {
 	/* border: 1px; */
-	background-color: aliceblue;
+	/* background-color: aliceblue; */
+	background-color: rgb(215, 231, 245);
 }
 .habitLane {
-	width: 500px
+	/* width: 500px */
 }
-.habitName {
-	width: 300px;
+.header {
+	text-align: center;
 }
 .habitName_input {
 	width: 95%;
 	font-size: large;
 }
-.daysLane {
-	width: 100px;
-}
-.days {
-	display: flex;
-}
 .dayItem {
-	flex-basis:50px;
+	/* flex-basis:70px; */
 	border:1px solid mediumblue; 
 	text-align: center;	
 }
 .dayItemFooter {
-	flex-basis:50px;
+	/* flex-basis:70px; */
 	text-align: center;	
 }
-.dayItemHeader {
-	flex-basis:50px;
+/* .dayItemHeader {
+	flex-basis:70px;
 	text-align: center;
 	font-size: small;
-}
+} */

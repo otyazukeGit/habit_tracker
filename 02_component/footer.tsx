@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as Actions from '../04_action/actions'
 import { ipcRenderer } from 'electron'
+import {RowHabit, CellHabitName, CellDelButton, CellHabitDays, HabitDays} from './styledUI'
 
 interface PropsFooter {
 	footerDays:{
@@ -26,21 +27,19 @@ export const HabitFooter: React.FC<PropsFooter> = (props) => {
 	}
 
 	return (
-		<tr>
-			<td style={{textAlign:"right"}}>All on/off</td>
-			<td></td>
-			<td>
-				<div className="days">
-					<div className="dayItemFooter"><input type="checkbox" className="monday" checked={props.footerDays.monday} onChange={e => switchDay(e)}/></div>
-					<div className="dayItemFooter"><input type="checkbox" className="tuesday" checked={props.footerDays.tuesday} onChange={switchDay}/></div>
-					<div className="dayItemFooter"><input type="checkbox" className="wednesday" checked={props.footerDays.wednesday} onChange={switchDay}/></div>
-					<div className="dayItemFooter"><input type="checkbox" className="thirsday" checked={props.footerDays.thirsday} onChange={switchDay}/></div>
-					<div className="dayItemFooter"><input type="checkbox" className="friday" checked={props.footerDays.friday} onChange={switchDay}/></div>
-					<div className="dayItemFooter"><input type="checkbox" className="sataday" checked={props.footerDays.sataday} onChange={switchDay}/></div>
-					<div className="dayItemFooter"><input type="checkbox" className="sunday" checked={props.footerDays.sunday} onChange={switchDay}/></div>
-				</div>
-			</td>
-		</tr>
+		<RowHabit>
+			<CellHabitName style={{textAlign:"right"}}>All on/off</CellHabitName>
+			<CellDelButton> </CellDelButton>
+			<CellHabitDays>
+				<HabitDays className="dayItemFooter"><input type="checkbox" className="monday" checked={props.footerDays.monday} onChange={e => switchDay(e)}/></HabitDays>
+				<HabitDays className="dayItemFooter"><input type="checkbox" className="tuesday" checked={props.footerDays.tuesday} onChange={switchDay}/></HabitDays>
+				<HabitDays className="dayItemFooter"><input type="checkbox" className="wednesday" checked={props.footerDays.wednesday} onChange={switchDay}/></HabitDays>
+				<HabitDays className="dayItemFooter"><input type="checkbox" className="thirsday" checked={props.footerDays.thirsday} onChange={switchDay}/></HabitDays>
+				<HabitDays className="dayItemFooter"><input type="checkbox" className="friday" checked={props.footerDays.friday} onChange={switchDay}/></HabitDays>
+				<HabitDays className="dayItemFooter"><input type="checkbox" className="sataday" checked={props.footerDays.sataday} onChange={switchDay}/></HabitDays>
+				<HabitDays className="dayItemFooter"><input type="checkbox" className="sunday" checked={props.footerDays.sunday} onChange={switchDay}/></HabitDays>
+			</CellHabitDays>
+		</RowHabit>
 	)
 }
 

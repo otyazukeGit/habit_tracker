@@ -24,7 +24,7 @@ let win :BrowserWindow;
 
  function createWindow() {
 	win = new BrowserWindow({
-		width: 1000,
+		width: 720,
 		height: 600,
 		webPreferences: {
 			nodeIntegration: true
@@ -56,7 +56,6 @@ let win :BrowserWindow;
 		let orderDb
 		db.order.find({}).exec((err, order) => {
 			orderDb = order[0].habitOrder
-			console.log('habitOrder: ', orderDb);
 		})
 
 		// Habit データ
@@ -140,14 +139,21 @@ let win :BrowserWindow;
 	})
 
 	// 習慣 行削除
-	ipcMain.on('data_delete_Habit', function (event, arg) {
+	ipcMain.on('data_delete_Habit', async (event, arg) => {
 		console.log("db data_delete_Habit()")
-		db.habits.remove({ habitKey: arg.habitKey }, {}, function (err, newDoc) {
+		await db.habits.remove({ habitKey: arg.habitKey }, {}, function (err, newDoc) {
 			if (err) {
 				console.log('err update: ' + err);
 			}
-			//event.sender.send('callback_ipc', 'Done update!')
 		})
+		
+		// Habit オーダ順
+		let orderDb
+		await db.order.find({}).exec((err, order) => {
+			orderDb = order[0].habitOrder
+		})
+		orderDb.splice(orderDb.indexOf(arg.habitKey), 1)
+		db.order.update({}, {$set: { habitOrder: orderDb}}, { multi: true }, (err, newDoc) => {})
 	})
 
 	// 全ての習慣 全曜日 Offに変更

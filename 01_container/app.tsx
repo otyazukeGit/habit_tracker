@@ -139,10 +139,9 @@ export const App = () => {
 			　
 			<Button onClick={clearHabitAllDays} variant="contained" color="primary">チェックをクリア</Button>
 			<br/>
-			<div className="OutBorder">
-			<DragDropContext onDragEnd={onDragEnd}>
-				<table id="habits">
-					<HabitHeader/>
+			<div className="outBorder">
+				<DragDropContext onDragEnd={onDragEnd}>
+						<HabitHeader/>
 						<Droppable droppableId="habitList"  type="task">
 							{(provided, snapshot) => (
 								<Rows
@@ -151,7 +150,6 @@ export const App = () => {
 									// {/* isDraggingOver={snapshot.isDraggingOver} */}
 									className="habitLane"
 								>
-									<tbody>
 										{/* {state.habits.map( (habit, index) => ( */}
 										{sortedHabits.map( (habit, index) => (
 											<HabitLane 
@@ -164,13 +162,11 @@ export const App = () => {
 											/>)
 										)}
 										{provided.placeholder}
-									</tbody>
 								</Rows>
 							)}
-							</Droppable>
+						</Droppable>
 						<HabitFooter footerDays={state.footerDays} dispatch={dispatch}/>
-				</table>
-			</DragDropContext>
+				</DragDropContext>
 			</div>
 		</div>
 	)

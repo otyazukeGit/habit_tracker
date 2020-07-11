@@ -1,5 +1,6 @@
 import * as React  from 'react'
-import {useSelector} from 'react-redux'
+// import {useSelector} from 'react-redux'
+import {RowHabit, CellHabitName, CellDelButton, HeaderHabitDays, CellHabitDays} from './styledUI'
 
 // 試し
 // type Props = {keyIndex:number}
@@ -8,24 +9,19 @@ import {useSelector} from 'react-redux'
 export const HabitHeader = () => {
 // export const HabitHeader: React.FC<Props> = (props) => {   // 試し
 	return (
-		<thead>
-			<tr>
-				<th className={"basic_bg" + " " + "habitName"}><b>習慣</b></th>
-				<th className="basic_bg"></th>
-				<th>
-					<div className={"days" + " " + "habitLaneHeader"}>
-						<div className="dayItemHeader">Mon</div>
-						<div className="dayItemHeader">Tue</div>
-						<div className="dayItemHeader">Wed</div>
-						<div className="dayItemHeader">Thr</div>
-						<div className="dayItemHeader">Fri</div>
-						<div className="dayItemHeader">Sat</div>
-						<div className="dayItemHeader">Sun</div>
-						{/* <div>{props.keyIndex}</div>   //試し  */}
-					</div>
-				</th>
-			</tr>
-		</thead>
+		<RowHabit>
+			<CellHabitName className="basic_bg">習慣</CellHabitName>
+			<CellDelButton className="basic_bg"> </CellDelButton>
+			<CellHabitDays className="habitLaneHeader">
+				<HeaderHabitDays>Mon</HeaderHabitDays>
+				<HeaderHabitDays>Tue</HeaderHabitDays>
+				<HeaderHabitDays>Wed</HeaderHabitDays>
+				<HeaderHabitDays>Thr</HeaderHabitDays>
+				<HeaderHabitDays>Fri</HeaderHabitDays>
+				<HeaderHabitDays>Sat</HeaderHabitDays>
+				<HeaderHabitDays>Sun</HeaderHabitDays>
+			</CellHabitDays>
+		</RowHabit>
 	)
 }
 

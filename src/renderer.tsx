@@ -19,7 +19,7 @@ ReactDOM.render(
 		<HashRouter>
 			<App/>
 			<ul>
-				<li><Link to="/a">HelpPage</Link></li>
+				<li><Link to="/a">ヘルプ</Link></li>
 				{/* <li><Link to="/b">HelpPageB</Link></li> */}
 			</ul>
 			
