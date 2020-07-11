@@ -46,8 +46,7 @@ let win :BrowserWindow;
 	}
 	dbLoad('habits', 'items.db')
 	dbLoad('order', 'order.db')
-	// let doc1 = {"habitOrder":[4,5,6]}
-	// db.order.insert(doc1, (err, newDoc) => {})
+	let dbHabitOrder
 
 	ipcMain.on('data_find', function (event, arg) {
 		console.log('Main data_find');
@@ -57,6 +56,7 @@ let win :BrowserWindow;
 		db.order.find({}).exec((err, order) => {
 			orderDb = order[0].habitOrder
 		})
+		dbHabitOrder = orderDb
 
 		// Habit データ
 		db.habits.find({}).exec((err, habits) => {
@@ -113,6 +113,7 @@ let win :BrowserWindow;
 		console.log('habitOrder after update: ', habitOrder);
 		// db.order.update({$not: { habitOrder: 0 }}, {$set: { habitOrder: habitOrder}}, { multi: true }, (err, newDoc) => {})
 		db.order.update({}, {$set: { habitOrder: habitOrder}}, { multi: true }, (err, newDoc) => {})
+		dbHabitOrder = habitOrder
 		
 	})
 
@@ -139,21 +140,34 @@ let win :BrowserWindow;
 	})
 
 	// 習慣 行削除
-	ipcMain.on('data_delete_Habit', async (event, arg) => {
+	ipcMain.on('data_delete_Habit', (event, arg) => {
 		console.log("db data_delete_Habit()")
-		await db.habits.remove({ habitKey: arg.habitKey }, {}, function (err, newDoc) {
-			if (err) {
-				console.log('err update: ' + err);
-			}
-		})
-		
-		// Habit オーダ順
-		let orderDb
-		await db.order.find({}).exec((err, order) => {
-			orderDb = order[0].habitOrder
-		})
-		orderDb.splice(orderDb.indexOf(arg.habitKey), 1)
-		db.order.update({}, {$set: { habitOrder: orderDb}}, { multi: true }, (err, newDoc) => {})
+		const data_delete_Habit = async () => {
+			await db.habits.remove({ habitKey: arg.habitKey }, {}, function (err, newDoc) {
+				if (err) {
+					console.log('err update: ' + err);
+				}
+			})
+			
+			// Habit オーダ順
+			// dbLoad('order', 'order.db')
+			let orderDb
+			orderDb = dbHabitOrder
+			console.log('dbHabitOrder: ', dbHabitOrder);
+			// console.log('db.order', db.order);
+			// db.order.find({}).exec((err, order) => {
+			// 	if(err){
+			// 		console.log('err: ', err)
+			// 	}
+			// 	console.log('order: ', order);
+			// 	orderDb = order[0].habitOrder
+			// })
+			// console.log('orderDb: ', orderDb);
+			orderDb.splice(orderDb.indexOf(arg.habitKey), 1)
+			console.log('orderDb: ', orderDb);
+			db.order.update({}, {$set: { habitOrder: orderDb}}, { multi: true }, (err, newDoc) => {})
+		}
+		data_delete_Habit()
 	})
 
 	// 全ての習慣 全曜日 Offに変更
@@ -191,6 +205,7 @@ let win :BrowserWindow;
 	ipcMain.on('data_reorder_habits', function (event, newOrder) {
 		console.log("db data_reorder_habits() - newOrder", newOrder)  //not defined ?
 		db.order.update({}, { $set: { habitOrder: newOrder } }, { multi: true}, (err, newDoc) => {})
+		dbHabitOrder = newOrder
 	})
 
 	win.webContents.on('new-window', (event, url) => {
