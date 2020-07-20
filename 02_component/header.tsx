@@ -2,15 +2,11 @@ import * as React  from 'react'
 // import {useSelector} from 'react-redux'
 import {RowHabit, CellHabitName, CellDelButton, HeaderHabitDays, CellHabitDays} from './styledUI'
 
-// 試し
-// type Props = {keyIndex:number}
-
 /// 関数コンポーネント実装
 export const HabitHeader = () => {
-// export const HabitHeader: React.FC<Props> = (props) => {   // 試し
 	return (
 		<RowHabit>
-			<CellHabitName className="basic_bg">習慣</CellHabitName>
+			<CellHabitName className="basic_bg">Habit</CellHabitName>
 			<CellDelButton className="basic_bg"> </CellDelButton>
 			<CellHabitDays className="habitLaneHeader">
 				<HeaderHabitDays>Mon</HeaderHabitDays>

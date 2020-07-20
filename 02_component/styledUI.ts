@@ -8,14 +8,11 @@ export const CellHabitName = styled.div`
 	text-align: center;
 	font-weight:bold;
 	width: 300px;
-	/* max-width: 600px;
-	min-width: 200px; */
 `
 export const CellDelButton = styled.div`
 	width: 80px;
 `
 export const CellHabitDays = styled.div`
-	/* width: 300px; */
 	display: flex;
 `
 export const HeaderHabitDays = styled.div`

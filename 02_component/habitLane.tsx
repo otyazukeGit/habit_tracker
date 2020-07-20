@@ -22,7 +22,6 @@ import { Delete } from '@material-ui/icons';
  */
 /// 関数コンポーネント実装
 export const HabitLane = (props) => {
-	// console.log('render HabitLane..');
 	const changeText = (e) => { //React input.valueの変更はonChangeで制御
 		// update NeDB
 		ipcRenderer.send('data_change_Name', {habitKey:props.habitKey, habitName:e.target.value})
@@ -40,15 +39,14 @@ export const HabitLane = (props) => {
 
 	const deleteHabit = (e) => {
 		// delete NeDB
-		console.log("data_delete_Habit .key : " + props.habitKey)
 		ipcRenderer.send('data_delete_Habit', {habitKey:props.habitKey})
 		// delte Store
 		props.dispatch(Actions.delHabit(props.habitKey))
 	}
 
 	return (
-		// [draggableId] mult be String.
-		// [index] must be unique within a <Droppable /> and be consecutive. [0, 1, 2] and not [0, 1, 8] , need not start from 0.
+		/// [draggableId] mult be String.
+		/// [index] must be unique within a <Droppable /> and be consecutive. [0, 1, 2] and not [0, 1, 8] , need not start from 0.
 		<Draggable draggableId={props.habitKey.toString()} index={props.index}>
 			{(provided, snapshot) => (
 				<RowHabit 
@@ -57,7 +55,7 @@ export const HabitLane = (props) => {
 					{...provided.draggableProps}
 					{...provided.dragHandleProps}
 				>
-					<CellHabitName className="habitName"><input type="text" value={props.habitName} onChange={(e) => changeText(e)} className="habitName_input" placeholder='新しい習慣を入力してください.'/></CellHabitName>
+					<CellHabitName className="habitName"><input type="text" value={props.habitName} onChange={(e) => changeText(e)} className="habitName_input" placeholder='Enter your new habits!'/></CellHabitName>
 					<CellDelButton><Button onClick={deleteHabit} startIcon={<Delete />} size="small" variant="contained" color="secondary">del</Button></CellDelButton>
 					<CellHabitDays>
 						<HabitDays className="dayItem"><input type="checkbox" className="monday" checked={props.habitDays.monday} onChange={(e) => changeDay(e)}/></HabitDays>

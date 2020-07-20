@@ -8,7 +8,6 @@ export const initialState:initialStateType = {
 	habits: [{
 		habitKey:1,
 		habitName:"",
-		// habitDays:[false,false,false,false,false,false,false]
 		habitDays:{
 			monday:false,
 			tuesday:false,

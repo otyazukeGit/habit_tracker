@@ -58,8 +58,6 @@ export const App = () => {
 		console.log('addHabit');
 		// insert into NeDB
 		ipcRenderer.send('data_add', state.keyIndex, state.habitOrder)	
-		console.log('state.keyIndex: ', state.keyIndex);
-		console.log('state.habitOrder: ', state.habitOrder);
 		// insert into Store
 		dispatch(Actions.addHabit())
 	}
@@ -73,7 +71,6 @@ export const App = () => {
 
 	const onDragEnd = result => {
 		console.log('onDragEnd result: ', result);
-		console.log('state.habitOrder: ', state.habitOrder);
 		const { destination, source, draggableId, type } = result
 		if (!destination) {
 			return;
@@ -84,13 +81,8 @@ export const App = () => {
 		}
 
 		let newOrder = state.habitOrder
-		// console.log('source.index: ', source.index);
-		// console.log('destination.index: ', destination.index);
 		newOrder.splice(source.index, 1)
-		// console.log('newOrder after delete one: ', newOrder);
 		newOrder.splice(destination.index, 0, Number(draggableId))
-		// console.log('newOrder after add one: ', newOrder);
-		// console.log('dragend newOrder: ', newOrder);
 
 		// update NeDB
 		ipcRenderer.send('data_reorder_habits', newOrder)
@@ -100,25 +92,18 @@ export const App = () => {
 	}
 
 	let sortedHabits = []
-	console.log('state: ', state);
-	// if(state.habitOrder.length > 0){
-		state.habitOrder.map( (order, index) => {
-			// console.log('order: ', order);
-			for(let i=0 ; i < state.habits.length ; i++){
-				let habit = state.habits[i]
-				// console.log('order + state.habits[i]: ', order, " + ", habit);
-				if(habit.habitKey == order){
-					// console.log('state.habits[i]: ', habit.habitKey);
-					sortedHabits.push(habit)
-				}
+	state.habitOrder.map( (order, index) => {
+		for(let i=0 ; i < state.habits.length ; i++){
+			let habit = state.habits[i]
+			if(habit.habitKey == order){
+				sortedHabits.push(habit)
 			}
-		})
-	// }
+		}
+	})
 
 	React.useEffect(() => {
 		console.log("effect")
 		ipcRenderer.on('show_itemList', (event, items, order) => {
-			// console.log("show_itemList order: " + order)
 			dispatch(Actions.setStoreByNedb(items, order))
 		})
 		ipcRenderer.send('data_find', 'dummy')
@@ -128,16 +113,12 @@ export const App = () => {
 		color: inherit;
 	`
 
-
-	console.log('sortedHabits: ', sortedHabits);
-
-
 	return (
 		<div>
 			<h1>Habit Tracker</h1>
-			<Button onClick={addHabit} variant="contained" color="primary">習慣を追加</Button>
+			<Button onClick={addHabit} variant="contained" color="primary">Add</Button>
 			　
-			<Button onClick={clearHabitAllDays} variant="contained" color="primary">チェックをクリア</Button>
+			<Button onClick={clearHabitAllDays} variant="contained" color="primary">Clear check</Button>
 			<br/>
 			<div className="outBorder">
 				<DragDropContext onDragEnd={onDragEnd}>
@@ -150,18 +131,17 @@ export const App = () => {
 									// {/* isDraggingOver={snapshot.isDraggingOver} */}
 									className="habitLane"
 								>
-										{/* {state.habits.map( (habit, index) => ( */}
-										{sortedHabits.map( (habit, index) => (
-											<HabitLane 
-												habitName={habit.habitName} 
-												key={habit.habitKey} 
-												habitKey={habit.habitKey} 
-												habitDays={habit.habitDays} 
-												dispatch={dispatch}
-												index={index}
-											/>)
-										)}
-										{provided.placeholder}
+									{sortedHabits.map( (habit, index) => (
+										<HabitLane 
+											habitName={habit.habitName} 
+											key={habit.habitKey} 
+											habitKey={habit.habitKey} 
+											habitDays={habit.habitDays} 
+											dispatch={dispatch}
+											index={index}
+										/>)
+									)}
+									{provided.placeholder}
 								</Rows>
 							)}
 						</Droppable>
@@ -174,7 +154,7 @@ export const App = () => {
 
 
  /**
- * 基本のコンポーネントクラス（親）
+ * 基本のクラスコンポーネント（親）
  */
 // export class App extends React.Component<Props0, State0> {
 // 	constructor(props){
