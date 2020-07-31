@@ -20,7 +20,7 @@
 ### [Electron](https://www.electronjs.org/)
 * せっかくだからアプリが完成したら配布してみよう、と思うてElectron導入
 ** ビルドが上手くいっていないので実現できていないです..
-### React
+### [React](https://reactjs.org/)
 * 何よりもReactに触ってみようで始めたプロジェクト
 * 当初クラスコンポーネントで組みました.
 * React v16.8.0よりReact Hooksが始まり、関数コンポーネントでの実装に書き換えました.
